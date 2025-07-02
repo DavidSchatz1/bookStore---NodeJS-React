@@ -1,0 +1,8 @@
+.books-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-lg;
+  padding: $space-lg 0;
+  margin-bottom: 80px;
+}

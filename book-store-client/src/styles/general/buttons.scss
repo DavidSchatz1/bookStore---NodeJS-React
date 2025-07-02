@@ -1,0 +1,48 @@
+.button {
+  display: inline-block;
+  padding: $space-sm $space-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-base;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-align: center;
+
+  &--primary {
+    background-color: $green-medium;
+    color: white;
+
+    &:hover {
+      background-color: $green-dark;
+    }
+
+    &:disabled {
+      background-color: $gray-medium;
+      cursor: not-allowed;
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    border: 2px solid $green-medium;
+    color: $green-medium;
+
+    &:hover {
+      background-color: $green-light;
+    }
+
+    &:disabled {
+      border-color: $gray-medium;
+      color: $gray-medium;
+      cursor: not-allowed;
+    }
+  }
+
+  &--danger {
+    background-color: $red-error;
+    color: white;
+
+    &:hover {
+      background-color: darken($red-error, 10%);
+    }
+  }
+}

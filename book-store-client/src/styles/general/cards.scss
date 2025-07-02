@@ -1,0 +1,32 @@
+.card {
+  @include card;
+
+  &--highlighted {
+    border: 2px solid $green-medium;
+    background-color: $green-light;
+  }
+
+  &--error {
+    border: 2px solid $red-error;
+    background-color: lighten($red-error, 40%);
+  }
+
+  &__header {
+    font-size: $font-size-lg;
+    font-weight: bold;
+    margin-bottom: $space-sm;
+  }
+
+  &__content {
+    font-size: $font-size-base;
+    margin-bottom: $space-sm;
+  }
+
+  &__footer {
+    text-align: left;
+  }
+
+  @include respond-to(mobile) {
+    padding: $space-sm;
+  }
+}

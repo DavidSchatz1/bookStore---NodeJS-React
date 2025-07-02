@@ -1,0 +1,205 @@
+.header-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $space-md;
+  padding: $space-xs $space-xl;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  background-color: white;
+  color: $text-color;
+  width: 100%;
+  z-index: 1000;
+
+  .user-icon-big-screen {
+    width: 23px;
+    height: 25px;
+  }
+
+  @include respond-to(mobile) {
+    justify-content: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 0;
+    margin-top: $space-xs;
+    top: -5px;
+
+    .greeting {
+      white-space: nowrap;
+    }
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+  }
+
+  .user-icon-small-screen {
+    display: none;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    cursor: pointer;
+
+    .books-image {
+      font-size: 36px;
+      color: $green-dark;
+    }
+
+    .header-icon-text {
+      font-size: $font-size-lg;
+      font-weight: bold;
+    }
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    flex: 1;
+    max-width: 400px;
+
+    input {
+      flex: 1;
+      border: 1px solid $gray-medium;
+      border-radius: $radius-sm;
+      font-size: $font-size-base;
+      margin-bottom: 0;
+    }
+
+    &.focused input {
+      border-color: $green-medium;
+      box-shadow: 0 0 0 2px rgba($green-medium, 0.3);
+    }
+
+    svg {
+      color: $green-dark;
+      cursor: pointer;
+    }
+  }
+
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cart-icon-wrapper {
+      position: relative;
+      cursor: pointer;
+
+      .cart-badge {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        background-color: $red-error;
+        color: white;
+        font-size: 10px;
+        padding: $space-xs $space-sm;
+        border-radius: $radius-full;
+        min-width: 12px;
+        text-align: center;
+        line-height: 1.2;
+      }
+    }
+
+    svg {
+      font-size: $font-size-lg;
+      color: $green-darkest;
+    }
+  }
+
+  .login-btn,
+  a[href="/login"] {
+    background-color: $green-medium;
+    color: white;
+    border: none;
+    border-radius: $radius-sm;
+    padding: $space-sm $space-md;
+    cursor: pointer;
+    font-size: $font-size-base;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: $green-dark;
+    }
+  }
+
+  span {
+    font-size: $font-size-base;
+  }
+
+  @include respond-to(tablet) {
+    .greeting {
+      display: none;
+    }
+  }
+
+  @include respond-to(mobile) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .header-icon,
+    .search-bar,
+    .icons,
+    .login-btn,
+    a[href="/login"],
+    span {
+      width: 100%;
+      justify-content: center;
+      margin-top: $space-xs;
+    }
+
+    .header-icon {
+      margin-top: 0;
+    }
+
+    .search-bar input {
+      width: 100%;
+    }
+
+    .icons {
+      justify-content: center;
+    }
+
+    .login-btn {
+      width: 95%;
+    }
+
+    .user-icon-small-screen {
+      display: inline;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+
+      &:hover {
+        color: rgba($green-medium, 0.9);
+      }
+    }
+
+    .user-icon-big-screen {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .cart-icon-wrapper {
+    display: none;
+  }
+}

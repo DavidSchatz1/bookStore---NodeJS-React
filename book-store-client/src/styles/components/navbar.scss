@@ -1,0 +1,41 @@
+.navbar {
+  background-color: $gray-light;
+  border-bottom: 1px solid $gray-medium;
+  padding: $space-sm $space-md;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+
+  @include flex-center;
+  gap: $space-md;
+
+  .nav-item {
+    font-size: $font-size-base;
+    padding: $space-sm $space-md;
+    border-radius: $radius-sm;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: $text-color;
+
+    &:hover {
+      background-color: $green-light;
+      color: white;
+    }
+
+    &.active {
+      background-color: $green-medium;
+      color: white;
+      font-weight: bold;
+    }
+  }
+
+  @include respond-to(mobile) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .nav-item {
+      text-align: center;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@import './general/variables.scss';
+@import './general/mixins.scss';
+@import './components/header.scss';
+@import './general/base.scss';
+@import './components/navbar.scss';
+@import './pages/homePage.scss';
+@import './components/notificationModal.scss';
+@import './pages/cartPage.scss';
+@import './pages/loginPage.scss';
+@import './general/buttons.scss';
+@import './general/forms.scss';
+@import './general/modals.scss';
+@import './general/cards.scss';
+@import './components/book.scss';
+@import './components/booklist.scss';
+@import './pages/adminLoginPage.scss';
+@import './components/paginationBar.scss';
+@import './pages/signup.scss';
+@import './pages/bookPage.scss';
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');

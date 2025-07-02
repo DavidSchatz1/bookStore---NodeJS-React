@@ -1,0 +1,57 @@
+.login-form-wrapper {
+  @include flex-center;
+  min-height: 100%;
+  padding: $space-md;
+}
+
+.login-form {
+  @include card;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-sm;
+
+  .login-input {
+    padding: $space-sm;
+    font-size: $font-size-base;
+    border: 1px solid $gray-medium;
+    border-radius: $radius-sm;
+    background-color: white;
+  }
+
+  .btn-primary {
+    margin-top: $space-md;
+    background-color: $green-medium;
+    color: white;
+    border-radius: $radius-sm;
+    padding: $space-sm $space-md;
+    font-size: $font-size-base;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: $green-dark;
+    }
+
+    &:disabled {
+      background-color: $gray-medium;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  .link-to-sign-up {
+    color: $blue-muted;
+  }
+
+  @include respond-to(mobile) {
+    padding: $space-sm;
+
+    .login-input,
+    .btn-primary {
+      font-size: $font-size-sm;
+      padding: $space-xs;
+    }
+  }
+}

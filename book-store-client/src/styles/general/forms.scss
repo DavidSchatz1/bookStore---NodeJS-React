@@ -1,0 +1,48 @@
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  width: 80%;
+  padding: $space-sm $space-md;
+  border: 1px solid $gray-medium;
+  border-radius: $radius-sm;
+  font-size: $font-size-base;
+  background-color: white;
+  color: $text-color;
+  transition: border-color 0.2s;
+  margin-bottom: $space-sm;
+
+  &:focus {
+    border-color: $green-medium;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: lighten($text-color, 30%);
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: $space-xs;
+  font-weight: 500;
+  font-size: $font-size-sm;
+}
+
+.form-group {
+  margin-bottom: $space-md;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: $gray-light;
+  color: $gray-medium;
+  cursor: not-allowed;
+}
+
+.add-book-form {
+  margin-bottom: 50px;
+}

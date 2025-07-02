@@ -1,0 +1,33 @@
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-xs;
+    max-width: 450px;
+    width: 50%;
+    border: 1px solid $gray-light;
+    border-radius: $radius-sm;
+    padding: $space-md;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .signup-input {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .password-warning {
+      color: $red-error;
+      font-size: $font-size-xs;
+      margin-top: $space-md;
+    }
+
+    .link-to-login {
+      color: $blue-muted;
+    }
+  }
+}

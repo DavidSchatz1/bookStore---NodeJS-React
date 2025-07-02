@@ -1,0 +1,39 @@
+@mixin respond-to($breakpoint) {
+  @if $breakpoint ==mobile {
+    @media (max-width: $breakpoint-mobile) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==tablet {
+    @media (max-width: $breakpoint-tablet) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==desktop {
+    @media (max-width: $breakpoint-desktop) {
+      @content;
+    }
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+@mixin card {
+  background-color: white;
+  border-radius: $radius-md;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: $space-md;
+}
