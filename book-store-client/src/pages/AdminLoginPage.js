@@ -12,18 +12,22 @@ const AdminLoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await login(email, password);
-    console.log(res);
-    console.log(res.isAdmin);
-    
-    if (!res || !res?.isAdmin) {
+
+    try{
+      const res = await login(email, password);
+      if (!res || !res?.isAdmin) {
+        showNotification("פרטי התחברות שגויים או שאינך אדמין", "error");
+        logout(); // מנקה כל משתמש לא מתאים
+        return;
+      }
+      showNotification("ברוך הבא, מנהל");
+      navigate("/adminbookform");
+    } catch (err) {
+      console.error('Failed to login:', err);
       showNotification("פרטי התחברות שגויים או שאינך אדמין", "error");
       logout(); // מנקה כל משתמש לא מתאים
       return;
     }
-
-    showNotification("ברוך הבא, מנהל");
-    navigate("/adminbookform");
   };
 
   return (

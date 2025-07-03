@@ -1,10 +1,9 @@
-import React from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useDiscount } from '../../context/DiscountContext';
 
 function CartItem({ book, quantity, discounted }) {
-  const { removeFromCart, decreaseQuantity, increaseQuantity } = useCart();
+  const { removeFromCart, updateQuantity } = useCart();
   const { discount } = useDiscount();
   const { user } = useAuth();
 
@@ -36,9 +35,9 @@ function CartItem({ book, quantity, discounted }) {
       </div>
 
       <div className="cart-item__quantity">
-        <button onClick={() => decreaseQuantity(book.id)}>-</button>
+        <button onClick={() => updateQuantity(book.id, quantity - 1)}>-</button>
         <span>{quantity}</span>
-        <button onClick={() => increaseQuantity(book.id)}>+</button>
+        <button onClick={() => updateQuantity(book.id, quantity + 1)}>+</button>
       </div>
     </li>
   );

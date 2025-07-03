@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import {updateUserAction} from "../../services/authServices";
+import { useNotification } from "../../context/NotificationContext";
 
 const EditUserModal = ({ user, onClose }) => {
+  const {showNotification} = useNotification();
   const { updateUserInfo } = useAuth();
   const [formData, setFormData] = useState({
     name: user.username,
@@ -19,7 +21,7 @@ const EditUserModal = ({ user, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = await updateUserAction(user.id, formData);
+    const newUser = await updateUserAction(user.id, formData, showNotification);
     updateUserInfo(newUser);
     onClose();
   };

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useBooks } from '../../context/BookContext';
 import Header from '../Common/Header/Header';
 import Navbar from '../Common/Nav-bar/Navbar';

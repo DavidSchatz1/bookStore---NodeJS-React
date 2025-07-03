@@ -13,16 +13,6 @@ export const REMOVE = (book) => ({
   payload: book,
 });
 
-export const INCREASE = (bookId) => ({
-  type: "INCREASE",
-  payload: bookId,
-});
-
-export const DECREASE = (bookId) => ({
-  type: "DECREASE",
-  payload: bookId,
-});
-
 export const CLEAR = () => ({
   type: "CLEAR",
 });

@@ -31,7 +31,6 @@ export const DiscountProvider = ({ children }) => {
       { value: newDiscount },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    // אפשר גם להחזיר את התגובה אם צריך:
     setDiscount(response.data.value);
   } catch (error) {
     console.error("Failed to update discount:", error.message);

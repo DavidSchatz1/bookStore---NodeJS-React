@@ -24,8 +24,8 @@ const SignUpPage = () => {
 
   async function handleSignUp (event) {
     event.preventDefault();
-    // לא צריך לבדוק שוב, זה כבר נבדק דרך הסטייט
     await signUp(email, username, password);
+    await showNotification("נרשמת בהצלחה! עכשיו תוכל להתחבר", "success");
     navigate("/login")
   };
 

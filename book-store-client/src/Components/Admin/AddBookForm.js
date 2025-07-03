@@ -34,7 +34,7 @@ function AddBookForm() {
 
     const newBookToAdd = {
       ...newBook,
-      year: Number(newBook.year), // ממיר את השנה למספר
+      year: Number(newBook.year), 
       price: Number(newBook.price)
     };
     await addBook(newBookToAdd);

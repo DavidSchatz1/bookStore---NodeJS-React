@@ -1,79 +1,67 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNotification } from './NotificationContext';
-import { useBooks } from './BookContext';
 import { cartReducer, initialCartState } from '../reducers/cartReducer';
 import * as CartActions from '../actions/CartActions';
+import * as cartService from '../services/cartService'; 
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const { user } = useAuth();
-  const cartKey = user?.email || 'guest';
-
   const [cart, dispatch] = useReducer(cartReducer, initialCartState);
   const { showNotification } = useNotification();
-  const { books } = useBooks();
 
-
-  // טעינה מה-localStorage
+  // טוען עגלה מהשרת כשמשתמש משתנה
   useEffect(() => {
-    const carts = JSON.parse(localStorage.getItem('carts')) || {};
-    dispatch(CartActions.SET_CART(carts[cartKey] || []));
-  }, [cartKey]);
-
-  useEffect(() => {
-    const carts = JSON.parse(localStorage.getItem('carts')) || {};
-    carts[cartKey] = cart;
-    localStorage.setItem('carts', JSON.stringify(carts));
-  }, [cart, cartKey]);
-
-
-  const addToCart = (book) => {
-    const existingItemIndex = cart.findIndex(item => item.id === book.id);
-
-    if (existingItemIndex !== -1) {
-      // המוצר כבר קיים — נעדכן את הכמות
-      dispatch(CartActions.INCREASE(book.id));
-      showNotification(`${book.title} כמות עודכנה בעגלה`);
+    if (user) {
+      cartService.fetchCart(dispatch);
     } else {
-      // מוצר חדש — נוסיף אותו עם כמות 1
-      dispatch(CartActions.ADD(book));
+      dispatch(CartActions.SET_CART([]));
+    }
+  }, [user]);
+
+  const addToCart = async (book) => {
+    if (!user) {
+      showNotification("יש להתחבר כדי להוסיף לסל", "error");
+      return;
+    }
+    try {
+      const alreadyInCart = cart.some(item => item.id === book._id);
+      await cartService.addToCart(dispatch, book._id);
+
+    if (alreadyInCart) {
+      showNotification(`${book.title} - כמות עודכנה בעגלה`);
+    } else {
       showNotification(`${book.title} נוסף לסל בהצלחה`);
+    }
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
     }
   };
 
-  const decreaseQuantity = (bookId) => {
-    dispatch(CartActions.DECREASE(bookId));
+  const updateQuantity = async (bookId, newQuantity) => {
+    try {
+      await cartService.updateQuantity(dispatch, bookId, newQuantity);
+      showNotification(`כמות עודכנה בעגלה`);
+    } catch (err) {
+      console.error("עדכון כמות נכשל:", err);
+      showNotification("אירעה שגיאה בעת עדכון הכמות", "error");
+    }
   };
 
-  const increaseQuantity = (bookId) => {
-    dispatch(CartActions.INCREASE(bookId));
+  const removeFromCart = async (book) => {
+    try{
+          await cartService.removeFromCart(dispatch, book.id);
+          showNotification(`${book.title} הוסר מסל הקניות`, "error");
+    } catch (err) {
+      console.error('Failed to remove from cart:', err);
+    }
   };
 
-
-
-  // פונקציה להסרה
-  const removeFromCart = (book) => {
-    dispatch(CartActions.REMOVE(book));
-    showNotification(`${book.title} הוסר מסל הקניות`, "error");
+  const clearCart = async () => {
+    await cartService.clearCart(dispatch);
   };
-
-  // ניקוי סל
-  const clearCart = () => {
-    dispatch(CartActions.CLEAR());
-  };
-
-  //פונקציה שמוודאה שהספרים עדיין קיימים ברשימת הספריםה מעודכנת, ואם לא, מסננת
-  const getValidCartItems = () => {
-    return cart
-      .map(item => {
-        const book = books.find(book => book.id === item.id);
-        return book ? { ...book, quantity: item.quantity } : null;
-      })
-      .filter(item => !!item);
-  };
-
 
   return (
     <CartContext.Provider value={{
@@ -81,9 +69,7 @@ export const CartProvider = ({ children }) => {
       addToCart,
       removeFromCart,
       clearCart,
-      getValidCartItems,
-      decreaseQuantity,
-      increaseQuantity
+      updateQuantity
     }}>
       {children}
     </CartContext.Provider>

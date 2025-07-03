@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDiscount } from '../../context/DiscountContext';
 import { useNotification } from '../../context/NotificationContext';
 

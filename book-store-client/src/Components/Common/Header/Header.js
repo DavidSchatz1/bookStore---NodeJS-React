@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { CiShoppingCart } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
@@ -13,9 +12,9 @@ function Header() {
   //searching bar
   const [isFocused, setIsFocused] = useState(false);
 
-  const { getValidCartItems } = useCart();
-  const validCartItems = getValidCartItems(); // ← שינוי כאן
-  const cartCount = validCartItems.length;
+  const { cart } = useCart();
+  const cartCount = cart.length;
+  const { user, logout, isAdmin } = useAuth();
 
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
@@ -24,10 +23,6 @@ function Header() {
     // מעבירים את החיפוש לכתובת
     navigate(`/search?query=${query}`);
   };
-
-  //user Login data
-
-  const { user, logout, isAdmin } = useAuth();
 
   // shoping cart navigation
   const onClickCart = () => {

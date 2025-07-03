@@ -24,9 +24,13 @@ function BookGridWithButtons({ books }) {
   }
 
   async function handleSave(updatedBook) {
-    await updateBook(updatedBook._id, updatedBook); 
-    showNotification("פרטי הספר נערכו בהצלחה");
-    setEditingBook(null);
+    try{
+      await updateBook(updatedBook._id, updatedBook); 
+      showNotification("פרטי הספר נערכו בהצלחה");
+      setEditingBook(null);
+    } catch (err) {
+      console.error('Failed to update book:', err);
+    }
   }
 
   return (

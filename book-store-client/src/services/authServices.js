@@ -13,6 +13,7 @@ export async function loginAction(email, password, dispatch, showNotification) {
     localStorage.setItem('authToken', token);
 
     dispatch(authActions.LOGIN(user));
+    showNotification("התחברת בהצלחה", "success");
     return user;
   } catch (error) {
     console.error('Failed to login:', error);
@@ -22,21 +23,14 @@ export async function loginAction(email, password, dispatch, showNotification) {
 
 export async function signUpAction(email, username, password, showNotification) {
   try {
-    console.log("Attempting to sign up:", { email, username, password });
-    const response = await axios.post('http://localhost:8000/api/users/register', {
+    await axios.post('http://localhost:8000/api/users/register', {
       email,
       username,
       password
     });
-
-    // אם הצליח
-    if (response.data.success) {
-      showNotification("נרשמת בהצלחה! עכשיו תוכל להתחבר", "success");
-      return;
-    }
+    showNotification("נרשמת בהצלחה! עכשיו תוכל להתחבר", "success");
   } catch (error) {
     // שגיאה שהגיעה מהשרת
-   
     if (error.response?.data?.error) {
       showNotification(error.response.data.error, "error");
     } else if (error.response?.data?.errors?.length > 0) {
@@ -47,7 +41,7 @@ export async function signUpAction(email, username, password, showNotification) 
   }
 }
 
-export async function deleteAccountAction(user, dispatch, navigate, showNotification) {
+export async function deleteAccountAction(user, dispatch, showNotification) {
   console.log(user)
   if (!user || !user.id) {
     showNotification("משתמש לא תקין", "error");
@@ -61,17 +55,15 @@ export async function deleteAccountAction(user, dispatch, navigate, showNotifica
   }
 
   try {
-    const response = await axios.delete(`http://localhost:8000/api/users/${user.id}`, {
+    await axios.delete(`http://localhost:8000/api/users/${user.id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    // אם הצליח – נמחק מהסטייט וננווט
     localStorage.removeItem("authToken");
     dispatch({ type: "LOGOUT" });
     showNotification("החשבון נמחק בהצלחה", "success");
-    navigate("/login");
   } catch (error) {
     console.error("שגיאה במחיקת החשבון:", error);
     const serverMessage = error.response?.data?.message || "שגיאה במחיקת החשבון";
@@ -79,7 +71,7 @@ export async function deleteAccountAction(user, dispatch, navigate, showNotifica
   }
 }
 
-export async function updateUserAction(userId, formData) {
+export async function updateUserAction(userId, formData, showNotification) {
   const token = localStorage.getItem("authToken");
   if (!token) {
     console.warn("אין טוקן – המשתמש כנראה לא מחובר");
@@ -102,11 +94,13 @@ export async function updateUserAction(userId, formData) {
         }
       }
     );
+    showNotification("המשתמש עודכן בהצלחה", "success");
     return response.data.user
 
   } catch (error) {
     const message = error.response?.data?.message || "שגיאה בעדכון המשתמש";
     console.error("Update user error:", message);
+    showNotification(message, "error");
   } 
 }
 

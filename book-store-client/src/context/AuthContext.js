@@ -3,11 +3,10 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification } from './NotificationContext';
 import { authReducer, initialAuthState } from '../reducers/authReducer';
-import { loginAction, signUpAction, deleteAccountAction, updateUserAction } from '../services/authServices';
+import { loginAction, signUpAction, deleteAccountAction } from '../services/authServices';
 import * as authActions from '../actions/authActions';
 import axios from 'axios';
-
-
+import { ENDPOINTS } from '../config';
 
 export const AuthContext = createContext();
 
@@ -22,14 +21,16 @@ useEffect(() => {
     if (!token) return;
 
     try {
-      const response = await axios.get("http://localhost:8000/api/users/getCurrent", {
+      const response = await axios.get(ENDPOINTS.USERS.GET_CURRENT,
+
+        // "http://localhost:8000/api/users/getCurrent",
+        {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
       dispatch(authActions.LOGIN(response.data.user));
-      console.log("משתמש מהטוקן:", response.data.user);
     } catch (err) {
       console.error("בעיה בזיהוי משתמש מהטוקן:", err);
     }  
@@ -38,17 +39,14 @@ useEffect(() => {
   fetchUserFromToken();
 }, []);
 
-
-  const updateUserInfo = (newUserInfo) => {
-    console.log ('trying to update user', newUserInfo);
+  const updateUserInfo = (newUserInfo) => 
     dispatch(authActions.UPDATE_USER_INFO(newUserInfo));
-    showNotification('פרטי המשתמש שונו בהצלחה!');
-  };
-
 
   const login = (email, password) =>
     loginAction(email, password, dispatch, showNotification);
 
+  const signUp = (email, name, password) =>
+    signUpAction(email, name, password, showNotification);
 
   function logout() {
     localStorage.removeItem("authToken");
@@ -56,12 +54,10 @@ useEffect(() => {
     navigate("/login");
   }
 
-  const signUp = (email, name, password) =>
-    signUpAction(email, name, password, showNotification);
-
-
-  const deleteOwnAccount = () =>
-    deleteAccountAction(state.user, dispatch, navigate, showNotification);
+  const deleteOwnAccount = async () => {
+    await deleteAccountAction(state.user, dispatch, showNotification);
+    navigate("/login");
+  }
 
   return (
     <AuthContext.Provider value={{

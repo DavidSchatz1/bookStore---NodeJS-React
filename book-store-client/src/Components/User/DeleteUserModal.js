@@ -1,5 +1,3 @@
-import React from "react";
-
 const DeleteUserModal = ({ onConfirm, onCancel }) => {
   return (
     <div className="modal-backdrop">

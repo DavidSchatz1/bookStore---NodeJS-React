@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import EditUserModal from "../Components/User/EditUserModal";
 import Header from "../Components/Common/Header/Header";

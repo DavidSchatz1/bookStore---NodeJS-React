@@ -6,7 +6,7 @@ import Header from '../Components/Common/Header/Header';
 import Navbar from '../Components/Common/Nav-bar/Navbar';
 
 const LoginPage = () => {
-  const { login, logout } = useAuth(); // הוספנו את logout
+  const { login, logout } = useAuth();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
 
@@ -35,10 +35,7 @@ const LoginPage = () => {
       showNotification("Admins cannot log in through the user login page", "error");
       return;
     }
-
-    await showNotification(`${loggedInUser.username}, you have successfully logged in`);
     navigate('/');
-
   };
 
   return (

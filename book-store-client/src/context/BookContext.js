@@ -1,39 +1,54 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { ENDPOINTS } from '../config';
+
 
 const BookContext = createContext();
 
 export const BookProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true); // נטען בהתחלה
 
   // שליפה ראשונית מהשרת
   useEffect(() => {
-    axios.get('http://localhost:8000/api/books')
+    axios.get(ENDPOINTS.BOOKS.GET_ALL
+      // 'http://localhost:8000/api/books'
+    )
       .then(response => {
         setBooks(response.data);
-        setLoading(false);
       })
       .catch(err => {
         console.error('Failed to fetch books:', err);
-        setLoading(false);
       });
   }, []);
 
   // יצירת ספר חדש
   const addBook = async (bookData) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/books', bookData);
+      const token = localStorage.getItem('authToken');
+      const response = await axios.post(ENDPOINTS.BOOKS.CREATE,
+        // 'http://localhost:8000/api/books',
+         bookData,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
       setBooks(prev => [...prev, response.data]);
     } catch (err) {
       console.error('Failed to add book:', err);
     }
   };
 
-  // עדכון ספר קיים
   const updateBook = async (id, updatedData) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/books/${id}`, updatedData);
+      const token = localStorage.getItem('authToken');
+      console.log(token, 'trying to update book');
+     const response = await axios.put(
+        `http://localhost:8000/api/books/${id}`,
+        updatedData,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
       setBooks(prev =>
         prev.map(book => book._id === id ? response.data : book)
       );
@@ -45,7 +60,13 @@ export const BookProvider = ({ children }) => {
   // מחיקת ספר
   const deleteBook = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/books/${id}`);
+      const token = localStorage.getItem('authToken');
+      await axios.delete(
+        `http://localhost:8000/api/books/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
       setBooks(prev => prev.filter(book => book._id !== id));
     } catch (err) {
       console.error('Failed to delete book:', err);
@@ -53,7 +74,7 @@ export const BookProvider = ({ children }) => {
   };
 
   return (
-    <BookContext.Provider value={{ books, addBook, updateBook, deleteBook, loading }}>
+    <BookContext.Provider value={{ books, addBook, updateBook, deleteBook }}>
       {children}
     </BookContext.Provider>
   );
