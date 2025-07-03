@@ -9,7 +9,7 @@ const requireAdmin = require('../middlewares/requireAdmin');
 router.get('/', bookController.getAllBooks);
 router.get('/:id', bookController.getBookById);
 
-router.post('/',  authMiddleware, requireAdmin, validate(bookSchema), bookController.createBook);
+router.post('/createBook',  authMiddleware, requireAdmin, validate(bookSchema), bookController.createBook);
 
 router.put('/:id', authMiddleware, requireAdmin, validate(bookSchema), bookController.updateBook);
 
