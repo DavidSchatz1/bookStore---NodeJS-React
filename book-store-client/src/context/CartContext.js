@@ -21,29 +21,52 @@ export const CartProvider = ({ children }) => {
     }
   }, [user]);
 
+  // const addToCart = async (book) => {
+  //   if (!user) {
+  //     showNotification("יש להתחבר כדי להוסיף לסל", "error");
+  //     return;
+  //   }
+  //   try {
+  //     const alreadyInCart = cart.some(item => item.id === book._id);
+  //     await cartService.addToCart(dispatch, book._id);
+
+  //   if (alreadyInCart) {
+  //     showNotification(`${book.title} - כמות עודכנה בעגלה`);
+  //   } else {
+  //     showNotification(`${book.title} נוסף לסל בהצלחה`);
+  //   }
+  //   } catch (err) {
+  //     console.error('Failed to add to cart:', err);
+  //   }
+  // };
+
   const addToCart = async (book) => {
-    if (!user) {
-      showNotification("יש להתחבר כדי להוסיף לסל", "error");
-      return;
-    }
-    try {
-      const alreadyInCart = cart.some(item => item.id === book._id);
-      await cartService.addToCart(dispatch, book._id);
+  if (!user) {
+    showNotification("יש להתחבר כדי להוסיף לסל", "error");
+    return;
+  }
+  try {
+    console.log(book?._id)
+    const alreadyInCart = cart.some(item => item.id === book._id);
+    await cartService.addToCart(dispatch, book._id);
 
     if (alreadyInCart) {
       showNotification(`${book.title} - כמות עודכנה בעגלה`);
     } else {
       showNotification(`${book.title} נוסף לסל בהצלחה`);
     }
-    } catch (err) {
-      console.error('Failed to add to cart:', err);
-    }
-  };
+  } catch (err) {
+    const msg = "שגיאה בעת הוספה לעגלה. נסה שוב.";
+    showNotification(msg, "error");
+  }
+};
+
 
   const updateQuantity = async (bookId, newQuantity) => {
     try {
-      await cartService.updateQuantity(dispatch, bookId, newQuantity);
-      showNotification(`כמות עודכנה בעגלה`);
+      const res = await cartService.updateQuantity(dispatch, bookId, newQuantity);
+      if (res.success) showNotification(`כמות עודכנה בעגלה`);
+      else showNotification("עדכון כמות נכשל", "error");
     } catch (err) {
       console.error("עדכון כמות נכשל:", err);
       showNotification("אירעה שגיאה בעת עדכון הכמות", "error");

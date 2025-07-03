@@ -15,23 +15,31 @@ function BookGridWithButtons({ books }) {
   const [editingBook, setEditingBook] = useState(null);
 
   async function onDelete(bookToDelete) {
-    await deleteBook(bookToDelete._id); 
-    showNotification("הספר נמחק בהצלחה", "error");
+    const result = await deleteBook(bookToDelete._id);
+
+    if (result.success) {
+      showNotification("הספר נמחק בהצלחה", "error");
+    } else {
+      showNotification(result.message, "error");
+    }
   }
+
 
   function onEdit(book) {
     setEditingBook(book);
   }
 
   async function handleSave(updatedBook) {
-    try{
-      await updateBook(updatedBook._id, updatedBook); 
-      showNotification("פרטי הספר נערכו בהצלחה");
-      setEditingBook(null);
-    } catch (err) {
-      console.error('Failed to update book:', err);
-    }
+  const result = await updateBook(updatedBook._id, updatedBook);
+
+  if (result.success) {
+    showNotification("פרטי הספר נערכו בהצלחה");
+    setEditingBook(null);
+  } else {
+    setEditingBook(null);
+    showNotification(result.message, "error");
   }
+}
 
   return (
     <div className="books-grid">

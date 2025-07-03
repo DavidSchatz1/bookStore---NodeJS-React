@@ -25,25 +25,50 @@ function AddBookForm() {
   }
 
   // פונקציה שמוסיפה את הספר לרשימה
+  // async function handleAddBook(event) {
+  //   event.preventDefault();
+  //   if (!newBook.title || !newBook.author || !newBook.year || !newBook.image || !newBook.price || !newBook.description) {
+  //     showNotification('אנא מלא את כל השדות', "error");
+  //     return;
+  //   }
+
+  //   const newBookToAdd = {
+  //     ...newBook,
+  //     year: Number(newBook.year), 
+  //     price: Number(newBook.price)
+  //   };
+  //   await addBook(newBookToAdd);
+  //   showNotification(`הספר ${newBook.title} נוסף לאתר בהצלחה`)
+
+  //   // איפוס השדות
+  //   setNewBook({ title: '', author: '', year: '', image: '', price: '', description: '' });
+  //   showNotification("הספר נוסף בהצלחה!");
+  // }
+
   async function handleAddBook(event) {
-    event.preventDefault();
-    if (!newBook.title || !newBook.author || !newBook.year || !newBook.image || !newBook.price || !newBook.description) {
-      showNotification('אנא מלא את כל השדות', "error");
-      return;
-    }
+  event.preventDefault();
 
-    const newBookToAdd = {
-      ...newBook,
-      year: Number(newBook.year), 
-      price: Number(newBook.price)
-    };
-    await addBook(newBookToAdd);
-    showNotification(`הספר ${newBook.title} נוסף לאתר בהצלחה`)
-
-    // איפוס השדות
-    setNewBook({ title: '', author: '', year: '', image: '', price: '', description: '' });
-    showNotification("הספר נוסף בהצלחה!");
+  if (!newBook.title || !newBook.author || !newBook.year || !newBook.image || !newBook.price || !newBook.description) {
+    showNotification('אנא מלא את כל השדות', "error");
+    return;
   }
+
+  const newBookToAdd = {
+    ...newBook,
+    year: Number(newBook.year),
+    price: Number(newBook.price)
+  };
+
+  const result = await addBook(newBookToAdd);
+
+  if (result.success) {
+    showNotification(`הספר ${newBook.title} נוסף לאתר בהצלחה`);
+    setNewBook({ title: '', author: '', year: '', image: '', price: '', description: '' });
+  } else {
+    showNotification(result.message, "error");
+  }
+}
+
 
   return (
     <div>

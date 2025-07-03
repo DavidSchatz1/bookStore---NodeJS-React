@@ -22,8 +22,6 @@ useEffect(() => {
 
     try {
       const response = await axios.get(ENDPOINTS.USERS.GET_CURRENT,
-
-        // "http://localhost:8000/api/users/getCurrent",
         {
         headers: {
           Authorization: `Bearer ${token}`

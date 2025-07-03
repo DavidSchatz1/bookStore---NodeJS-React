@@ -1,9 +1,11 @@
 import axios from 'axios';
 import * as authActions from '../actions/authActions';
+import { ENDPOINTS } from '../config';
 
 export async function loginAction(email, password, dispatch, showNotification) {
   try {
-    const response = await axios.post('http://localhost:8000/api/users/login', {
+    const response = await axios.post(ENDPOINTS.USERS.LOGIN,
+       {
       "email": email,
       "password": password
     });
@@ -23,7 +25,8 @@ export async function loginAction(email, password, dispatch, showNotification) {
 
 export async function signUpAction(email, username, password, showNotification) {
   try {
-    await axios.post('http://localhost:8000/api/users/register', {
+    await axios.post(ENDPOINTS.USERS.REGISTER,
+       {
       email,
       username,
       password
@@ -55,7 +58,8 @@ export async function deleteAccountAction(user, dispatch, showNotification) {
   }
 
   try {
-    await axios.delete(`http://localhost:8000/api/users/${user.id}`, {
+    await axios.delete(ENDPOINTS.USERS.DELETE(user.id),
+       {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,8 +89,7 @@ export async function updateUserAction(userId, formData, showNotification) {
   };
 
   try {
-    const response = await axios.patch(
-      `http://localhost:8000/api/users/${userId}`,
+    const response = await axios.patch(ENDPOINTS.USERS.UPDATE(userId),
       updatedUserData,
       {
         headers: {

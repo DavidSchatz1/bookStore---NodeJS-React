@@ -3,11 +3,11 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:800
 const ENDPOINTS = {
   BOOKS: {
     BASE: `${API_BASE_URL}/books`,
-    GET_ALL: `${API_BASE_URL}/books`,
-    GET_BY_ID: (id) => `${API_BASE_URL}/books/${id}`,
+    GET_ALL: `${API_BASE_URL}/books/all`,
+    GET_BY_ID: (id) => `${API_BASE_URL}/books/getBook/${id}`,
     CREATE: `${API_BASE_URL}/books/createBook`,
-    UPDATE: (id) => `${API_BASE_URL}/books/${id}`,
-    DELETE: (id) => `${API_BASE_URL}/books/${id}`,
+    UPDATE: (id) => `${API_BASE_URL}/books/updateBook/${id}`,
+    DELETE: (id) => `${API_BASE_URL}/books/deleteBook/${id}`,
   },
 
   CART: {
