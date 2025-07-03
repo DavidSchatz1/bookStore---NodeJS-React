@@ -6,13 +6,13 @@ const bookSchema = require('../validations/bookSchema');
 const authMiddleware = require('../middlewares/authMiddleware');
 const requireAdmin = require('../middlewares/requireAdmin');
 
-router.get('/', bookController.getAllBooks);
-router.get('/:id', bookController.getBookById);
+router.get('/all', bookController.getAllBooks);
+router.get('/getBook/:id', bookController.getBookById);
 
 router.post('/createBook',  authMiddleware, requireAdmin, validate(bookSchema), bookController.createBook);
 
-router.put('/:id', authMiddleware, requireAdmin, validate(bookSchema), bookController.updateBook);
+router.put('/updateBook/:id', authMiddleware, requireAdmin, validate(bookSchema), bookController.updateBook);
 
-router.delete('/:id', authMiddleware, requireAdmin, bookController.deleteBook);
+router.delete('/deleteBook/:id', authMiddleware, requireAdmin, bookController.deleteBook);
 
 module.exports = router;  

@@ -11,6 +11,6 @@ router.get('/', cartController.getCart);
 router.post('/', validate(addItemSchema), cartController.addToCart);
 router.patch('/', validate(updateQuantitySchema), cartController.updateCartQuantity);
 router.delete('/:bookId', cartController.removeFromCart);
-router.delete('/', cartController.clearCart);
+router.delete('/', cartController.clearCart); 
 
 module.exports = router;

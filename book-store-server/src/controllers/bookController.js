@@ -1,4 +1,9 @@
 const bookService = require('../services/bookService');
+const mongoose = require('mongoose');
+const {removeBookFromAllCarts} = require('../utils/cartUtils');
+const { ObjectId } = require('mongodb');
+
+
 
 const getAllBooks = async (req, res) => {
   try {
@@ -38,15 +43,23 @@ const updateBook = async (req, res) => {
   }
 };
 
+
+
 const deleteBook = async (req, res) => {
   try {
-    const deleted = await bookService.deleteBook(req.params.id);
+    const bookIdToDelete = new mongoose.Types.ObjectId(String(req.params.id));
+
+    const deleted = await bookService.deleteBook(bookIdToDelete);
     if (!deleted) return res.status(404).send("Book not found");
+
+    await removeBookFromAllCarts(bookIdToDelete); 
+
     res.json({ message: "Book deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete book', error: err.message });
   }
 };
+
 
 module.exports = {
   getAllBooks,

@@ -9,7 +9,9 @@ const getCart = async (req, res) => {
       return res.json({ user: userId, items: [] });
     }
 
-    const items = cart.items.map(item => ({
+    const items = cart.items
+    .filter(item => item.bookId)
+    .map(item => ({
       id: item.bookId._id,
       title: item.bookId.title,
       author: item.bookId.author,
@@ -26,37 +28,15 @@ const getCart = async (req, res) => {
   }
 };
 
-// הוספה לעגלה
-// const addToCart = async (req, res) => {
-//   try {
-//     const { bookId, quantity = 1 } = req.body;
-//     const userId = req.user.userId;
-
-//     let cart = await Cart.findOne({ user: userId });
-
-//     if (!cart) {
-//       cart = new Cart({ user: userId, items: [{ bookId, quantity }] });
-//     } else {
-//       const existingItem = cart.items.find(item => item.bookId.toString() === bookId);
-//       if (existingItem) {
-//         existingItem.quantity += quantity;
-//       } else {
-//         cart.items.push({ bookId, quantity });
-//       }
-//     }
-
-//     await cart.save();
-//     res.json(cart);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'שגיאה בהוספת פריט לעגלה' });
-//   }
-// };
 
 const addToCart = async (req, res) => {
   try {
     const { bookId, quantity = 1 } = req.body;
     const userId = req.user.userId;
+
+    if (!bookId) {
+      return res.status(400).json({ error: 'bookId is required' });
+    }
 
     let cart = await Cart.findOne({ user: userId });
 
@@ -69,20 +49,23 @@ const addToCart = async (req, res) => {
       } else {
         cart.items.push({ bookId, quantity });
       }
-    }   
+    }
 
     await cart.save();
-    const populatedCart = await cart.populate('items.bookId');
 
-    const items = populatedCart.items.map(item => ({
-      id: item.bookId._id,
-      title: item.bookId.title,
-      author: item.bookId.author,
-      year: item.bookId.year,
-      price: item.bookId.price,
-      image: item.bookId.image,
-      quantity: item.quantity,
-    }));
+    await cart.populate('items.bookId');
+
+    const items = cart.items
+      .filter(item => item.bookId)
+      .map(item => ({
+        id: item.bookId._id,
+        title: item.bookId.title,
+        author: item.bookId.author,
+        year: item.bookId.year,
+        price: item.bookId.price,
+        image: item.bookId.image,
+        quantity: item.quantity,
+      }));
 
     res.json({ user: userId, items });
   } catch (err) {
@@ -90,6 +73,7 @@ const addToCart = async (req, res) => {
     res.status(500).json({ message: 'שגיאה בהוספת פריט לעגלה' });
   }
 };
+
 
 
 // עדכון כמות
@@ -128,7 +112,9 @@ const updateCartQuantity = async (req, res) => {
     await cart.save();
     const populatedCart = await cart.populate('items.bookId');
 
-    const items = populatedCart.items.map(item => ({
+    const items = populatedCart.items
+    .filter(item => item.bookId)
+    .map(item => ({
       id: item.bookId._id,
       title: item.bookId.title,
       author: item.bookId.author,
@@ -189,7 +175,9 @@ const removeFromCart = async (req, res) => {
     await cart.save();
     const populatedCart = await cart.populate('items.bookId');
 
-    const items = populatedCart.items.map(item => ({
+    const items = populatedCart.items
+    .filter(item => item.bookId)
+    .map(item => ({
       id: item.bookId._id,
       title: item.bookId.title,
       author: item.bookId.author,

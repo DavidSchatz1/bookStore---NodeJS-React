@@ -13,8 +13,10 @@ const loginSchema = yup.object({
 
 const updateUserSchema = yup.object({
   username: yup.string().required('Username is required'),
-  email: yup.string().email('Invalid email format').required('Email is required'),
+  email: yup.string().email('Invalid email format').required('Email is required').matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      'Email must be a valid format like example@example.com'
+    ),
   password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-});
+}); 
 
 module.exports = { registerSchema, loginSchema, updateUserSchema };
