@@ -17,18 +17,6 @@ export const fetchCart = async (dispatch) => {
   }
 };
 
-// export const addToCart = async (dispatch, bookId) => {
-//   try {
-//     const token = localStorage.getItem('authToken');
-//     const res = await axios.post(ENDPOINTS.CART.ADD
-//       , { bookId }, {
-//       headers: { Authorization: `Bearer ${token}` }
-//     });
-//     dispatch(CartActions.SET_CART(res.data.items));
-//   } catch (err) {
-//     console.error('Failed to add to cart:', err);
-//   }
-// };
 
 export const addToCart = async (dispatch, bookId) => {
   try {
@@ -39,9 +27,10 @@ export const addToCart = async (dispatch, bookId) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     dispatch(CartActions.SET_CART(res.data.items));
+    return { success: true };
   } catch (err) {
     console.error('Failed to add to cart:', err);
-    throw err; // 👈 זו השורה שצריך להוסיף כדי להעביר את השגיאה למעלה
+    return { success: false };
   }
 };
 
@@ -68,9 +57,11 @@ export const removeFromCart = async (dispatch, bookId) => {
       , {
       headers: { Authorization: `Bearer ${token}` }
     });
-    dispatch(CartActions.SET_CART(res.data.items));
+    await dispatch(CartActions.SET_CART(res.data.items));
+    return { success: true };
   } catch (err) {
     console.error('Failed to remove from cart:', err);
+    return { success: false };
   }
 };
 
@@ -81,8 +72,10 @@ export const clearCart = async (dispatch) => {
        {
       headers: { Authorization: `Bearer ${token}` }
     });
-    dispatch(CartActions.SET_CART([]));
+    await dispatch(CartActions.SET_CART([]));
+    return { success: true };
   } catch (err) {
     console.error('Failed to clear cart:', err);
+    return { success: false };
   }
 };

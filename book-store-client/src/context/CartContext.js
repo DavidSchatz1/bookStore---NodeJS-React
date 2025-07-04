@@ -21,25 +21,6 @@ export const CartProvider = ({ children }) => {
     }
   }, [user]);
 
-  // const addToCart = async (book) => {
-  //   if (!user) {
-  //     showNotification("יש להתחבר כדי להוסיף לסל", "error");
-  //     return;
-  //   }
-  //   try {
-  //     const alreadyInCart = cart.some(item => item.id === book._id);
-  //     await cartService.addToCart(dispatch, book._id);
-
-  //   if (alreadyInCart) {
-  //     showNotification(`${book.title} - כמות עודכנה בעגלה`);
-  //   } else {
-  //     showNotification(`${book.title} נוסף לסל בהצלחה`);
-  //   }
-  //   } catch (err) {
-  //     console.error('Failed to add to cart:', err);
-  //   }
-  // };
-
   const addToCart = async (book) => {
   if (!user) {
     showNotification("יש להתחבר כדי להוסיף לסל", "error");
@@ -48,12 +29,13 @@ export const CartProvider = ({ children }) => {
   try {
     console.log(book?._id)
     const alreadyInCart = cart.some(item => item.id === book._id);
-    await cartService.addToCart(dispatch, book._id);
-
-    if (alreadyInCart) {
-      showNotification(`${book.title} - כמות עודכנה בעגלה`);
-    } else {
-      showNotification(`${book.title} נוסף לסל בהצלחה`);
+    const res = await cartService.addToCart(dispatch, book._id);
+    if (res.success) {
+      if (alreadyInCart) {
+        showNotification(`${book.title} - כמות עודכנה בעגלה`);
+      } else {
+        showNotification(`${book.title} נוסף לסל בהצלחה`);
+      }
     }
   } catch (err) {
     const msg = "שגיאה בעת הוספה לעגלה. נסה שוב.";
@@ -75,15 +57,24 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (book) => {
     try{
-          await cartService.removeFromCart(dispatch, book.id);
-          showNotification(`${book.title} הוסר מסל הקניות`, "error");
+        const res = await cartService.removeFromCart(dispatch, book.id);
+        if (res.success) showNotification(`${book.title} הוסר מסל הקניות`, "error");
+        else showNotification("שגיאה בעת הסרה מהעגלה", "error");
     } catch (err) {
-      console.error('Failed to remove from cart:', err);
+      console.error(":שגיאה בעת הסרה מהעגלה", err);
+      showNotification("שגיאה בעת הסרה מהעגלה", "error");
     }
   };
 
   const clearCart = async () => {
-    await cartService.clearCart(dispatch);
+    try{
+       const res = await cartService.clearCart(dispatch);
+    if (res.success) showNotification("עגלת הקניות הוסרה", "error");
+    else showNotification("שגיאה בעת מחיקת עגלת הקניות", "error");
+    } catch (err) {
+      console.error("שגיאה בעת מחיקת עגלת הקניות", err);
+    }
+  
   };
 
   return (
