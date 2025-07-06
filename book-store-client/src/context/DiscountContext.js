@@ -23,21 +23,6 @@ export const DiscountProvider = ({ children }) => {
     fetchDiscount();
   }, []);
 
-  // עדכון ההנחה גם בשרת וגם בסטייט
-//   const updateDiscount = async (newDiscount) => {
-//   try {
-//     const token = localStorage.getItem('authToken');
-//     const response = await axios.patch(ENDPOINTS.DISCOUNT.UPDATE
-//       ,
-//       { value: newDiscount },
-//       { headers: { Authorization: `Bearer ${token}` } }
-//     );
-//     setDiscount(response.data.value);
-//   } catch (error) {
-//     console.error("Failed to update discount:", error.message);
-//   }
-// };
-
 const updateDiscount = async (newDiscount) => {
   try {
     const token = localStorage.getItem('authToken');

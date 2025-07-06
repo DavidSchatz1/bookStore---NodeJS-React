@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { useNotification } from '../../context/NotificationContext';
 import { useBooks } from '../../context/BookContext';
@@ -23,27 +22,6 @@ function AddBookForm() {
     const { name, value } = event.target;
     setNewBook(prev => ({ ...prev, [name]: value }));
   }
-
-  // פונקציה שמוסיפה את הספר לרשימה
-  // async function handleAddBook(event) {
-  //   event.preventDefault();
-  //   if (!newBook.title || !newBook.author || !newBook.year || !newBook.image || !newBook.price || !newBook.description) {
-  //     showNotification('אנא מלא את כל השדות', "error");
-  //     return;
-  //   }
-
-  //   const newBookToAdd = {
-  //     ...newBook,
-  //     year: Number(newBook.year), 
-  //     price: Number(newBook.price)
-  //   };
-  //   await addBook(newBookToAdd);
-  //   showNotification(`הספר ${newBook.title} נוסף לאתר בהצלחה`)
-
-  //   // איפוס השדות
-  //   setNewBook({ title: '', author: '', year: '', image: '', price: '', description: '' });
-  //   showNotification("הספר נוסף בהצלחה!");
-  // }
 
   async function handleAddBook(event) {
   event.preventDefault();

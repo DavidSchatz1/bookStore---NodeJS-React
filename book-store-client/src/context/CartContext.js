@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
     console.log(book?._id)
     const alreadyInCart = cart.some(item => item.id === book._id);
     const res = await cartService.addToCart(dispatch, book._id);
-    if (res.success) {
+    if (res?.success) {
       if (alreadyInCart) {
         showNotification(`${book.title} - כמות עודכנה בעגלה`);
       } else {
@@ -47,7 +47,7 @@ export const CartProvider = ({ children }) => {
   const updateQuantity = async (bookId, newQuantity) => {
     try {
       const res = await cartService.updateQuantity(dispatch, bookId, newQuantity);
-      if (res.success) showNotification(`כמות עודכנה בעגלה`);
+      if (res?.success) showNotification(`כמות עודכנה בעגלה`);
       else showNotification("עדכון כמות נכשל", "error");
     } catch (err) {
       console.error("עדכון כמות נכשל:", err);
@@ -58,7 +58,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (book) => {
     try{
         const res = await cartService.removeFromCart(dispatch, book.id);
-        if (res.success) showNotification(`${book.title} הוסר מסל הקניות`, "error");
+        if (res?.success) showNotification(`${book.title} הוסר מסל הקניות`, "error");
         else showNotification("שגיאה בעת הסרה מהעגלה", "error");
     } catch (err) {
       console.error(":שגיאה בעת הסרה מהעגלה", err);
@@ -69,10 +69,11 @@ export const CartProvider = ({ children }) => {
   const clearCart = async () => {
     try{
        const res = await cartService.clearCart(dispatch);
-    if (res.success) showNotification("עגלת הקניות הוסרה", "error");
+    if (res?.success) showNotification("עגלת הקניות הוסרה", "error");
     else showNotification("שגיאה בעת מחיקת עגלת הקניות", "error");
     } catch (err) {
       console.error("שגיאה בעת מחיקת עגלת הקניות", err);
+      showNotification("שגיאה בעת הסרה מהעגלה", "error");
     }
   
   };

@@ -11,18 +11,16 @@ const ENDPOINTS = {
   },
 
   CART: {
-    BASE: `${API_BASE_URL}/cart`,
-    GET: `${API_BASE_URL}/cart`,
-    ADD: `${API_BASE_URL}/cart`,
-    UPDATE_QUANTITY: `${API_BASE_URL}/cart`,
-    REMOVE_ITEM: (bookId) => `${API_BASE_URL}/cart/${bookId}`,
-    CLEAR: `${API_BASE_URL}/cart`,
+    GET: `${API_BASE_URL}/cart/getCart`,
+    ADD: `${API_BASE_URL}/cart/addItem`,
+    UPDATE_QUANTITY: `${API_BASE_URL}/cart/updateItemQuantity`,
+    REMOVE_ITEM: (bookId) => `${API_BASE_URL}/cart/deleteBook/${bookId}`,
+    CLEAR: `${API_BASE_URL}/cart/clearCart`,
   },
 
   DISCOUNT: {
-    BASE: `${API_BASE_URL}/discount`,
-    GET: `${API_BASE_URL}/discount`,
-    UPDATE: `${API_BASE_URL}/discount`,
+    GET: `${API_BASE_URL}/discount/get`,
+    UPDATE: `${API_BASE_URL}/discount/update`,
   },
 
   USERS: {
@@ -30,8 +28,8 @@ const ENDPOINTS = {
     REGISTER: `${API_BASE_URL}/users/register`,
     LOGIN: `${API_BASE_URL}/users/login`,
     GET_CURRENT: `${API_BASE_URL}/users/getCurrent`,
-    UPDATE: (id) => `${API_BASE_URL}/users/${id}`,
-    DELETE: (id) => `${API_BASE_URL}/users/${id}`,
+    UPDATE: (id) => `${API_BASE_URL}/users/updateInfo/${id}`,
+    DELETE: (id) => `${API_BASE_URL}/users/deleteUser/${id}`,
   }
 };
 

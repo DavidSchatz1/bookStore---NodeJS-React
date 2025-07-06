@@ -1,5 +1,4 @@
-// components/PaginationWrapper.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function PaginationWrapper({ items, itemsPerPage, children }) {
   const [currentPage, setCurrentPage] = useState(1);

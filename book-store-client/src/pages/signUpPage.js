@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
   const { signUp, user } = useAuth();
-  const { showNotification } = useNotification();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');

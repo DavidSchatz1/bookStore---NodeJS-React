@@ -1,7 +1,5 @@
-// מצב התחלתי — עגלה ריקה
 export const initialCartState = [];
 
-// רידוסר לניהול עגלת קניות
 export function cartReducer(state, action) {
   switch (action.type) {
     case 'ADD': {

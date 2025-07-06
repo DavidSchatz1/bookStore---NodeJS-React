@@ -19,12 +19,21 @@ const EditUserModal = ({ user, onClose }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
     const newUser = await updateUserAction(user.id, formData, showNotification);
-    updateUserInfo(newUser);
-    onClose();
-  };
+    if (newUser) { 
+      updateUserInfo(newUser);
+      onClose();
+    }
+    showNotification("המשתמש עודכן בהצלחה", "success");
+
+  } catch (error) {
+    console.error("שגיאה ב-handleSubmit:", error);
+    showNotification("ארעה שגיאה בביצוע הפעולה", "error");
+  }
+};
 
   return (
     <div className="modal-backdrop">

@@ -14,6 +14,7 @@ export const fetchCart = async (dispatch) => {
     dispatch(CartActions.SET_CART(res.data.items || []));
   } catch (err) {
     console.error('Failed to fetch cart:', err);
+    throw err;
   }
 };
 
@@ -30,7 +31,7 @@ export const addToCart = async (dispatch, bookId) => {
     return { success: true };
   } catch (err) {
     console.error('Failed to add to cart:', err);
-    return { success: false };
+    throw err;
   }
 };
 
@@ -46,7 +47,7 @@ export const updateQuantity = async (dispatch, bookId, quantity) => {
     return { success: true };
   } catch (err) {
     console.error('Failed to update quantity:', err);
-    return { success: false };
+    throw err;
   }
 };
 
@@ -61,7 +62,7 @@ export const removeFromCart = async (dispatch, bookId) => {
     return { success: true };
   } catch (err) {
     console.error('Failed to remove from cart:', err);
-    return { success: false };
+    throw err;
   }
 };
 
@@ -76,6 +77,6 @@ export const clearCart = async (dispatch) => {
     return { success: true };
   } catch (err) {
     console.error('Failed to clear cart:', err);
-    return { success: false };
+    throw err;
   }
 };

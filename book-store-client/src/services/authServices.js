@@ -97,13 +97,12 @@ export async function updateUserAction(userId, formData, showNotification) {
         }
       }
     );
-    showNotification("המשתמש עודכן בהצלחה", "success");
-    return response.data.user
+    return response?.data?.user
 
   } catch (error) {
-    const message = error.response?.data?.message || "שגיאה בעדכון המשתמש";
+    const message = error?.response?.data?.message || "שגיאה בעדכון המשתמש";
     console.error("Update user error:", message);
-    showNotification(message, "error");
+    throw new Error(message);
   } 
 }
 
