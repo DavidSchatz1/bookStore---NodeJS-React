@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // כתובת ייחודית
+    unique: true,
     lowercase: true
   },
   password: {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: {
     type: Boolean,
-    default: false // לא ניתן לשנות מהלקוח
+    default: false 
   }
 });
 

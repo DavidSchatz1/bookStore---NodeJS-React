@@ -5,8 +5,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const requireAdmin = require('../middlewares/requireAdmin');
 
 // PATCH /api/discount
-router.patch('/', authMiddleware, requireAdmin, discountController.updateDiscount);
+router.patch('/update', authMiddleware, requireAdmin, discountController.updateDiscount);
 
-router.get('/', discountController.getDiscount);
+router.get('/get', discountController.getDiscount);
 
 module.exports = router;

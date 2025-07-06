@@ -63,11 +63,9 @@ const updateUser = async (req, res) => {
     if (password && password.trim() !== '') {
       password = await bcrypt.hash(password, 8);
     } else {
-      // אם המשתמש לא שינה סיסמה – לא נשלח אותה לעדכון
       password = undefined;
     }
 
-    // בניית אובייקט עדכון דינאמי
     const updateData = { username, email };
     if (password) {
       updateData.password = password;
