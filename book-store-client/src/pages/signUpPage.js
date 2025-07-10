@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNotification } from '../context/NotificationContext';
 import Header from '../Components/Common/Header/Header';
 import Navbar from '../Components/Common/Nav-bar/Navbar';
 import { Link, useNavigate } from 'react-router-dom';

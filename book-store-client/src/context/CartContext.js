@@ -27,7 +27,6 @@ export const CartProvider = ({ children }) => {
     return;
   }
   try {
-    console.log(book?._id)
     const alreadyInCart = cart.some(item => item.id === book._id);
     const res = await cartService.addToCart(dispatch, book._id);
     if (res?.success) {

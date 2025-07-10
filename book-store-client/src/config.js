@@ -7,7 +7,7 @@ const ENDPOINTS = {
     GET_BY_ID: (id) => `${API_BASE_URL}/books/getBook/${id}`,
     CREATE: `${API_BASE_URL}/books/createBook`,
     UPDATE: (id) => `${API_BASE_URL}/books/updateBook/${id}`,
-    DELETE: (id) => `${API_BASE_URL}/books/deleteBook/${id}`,
+    DELETE: (id) => `${API_BASE_URL}/books/deleteBook/${id}`, 
   },
 
   CART: {

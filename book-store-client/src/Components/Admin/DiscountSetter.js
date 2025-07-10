@@ -8,24 +8,29 @@ function DiscountSetter() {
   const [inputValue, setInputValue] = useState(discount);
   const { showNotification } = useNotification();
 
-  const handleSave = async () => {
+const handleSave = async () => {
   const parsed = parseFloat(inputValue);
-
-  if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
+  try {
+    if (isNaN(parsed) || parsed < 0 || parsed > 99) {
+      showNotification("אנא הזן ערך בין 0 ל-100", "error");
+      setInputValue(discount);
+      return; 
+    }
     const result = await updateDiscount(parsed);
-
+ 
     if (result.success) {
-      showNotification("הנחת משתמשים רשומים שונתה בהצלחה");
-      setShowInput(false);
+      showNotification("הנחת משתמשים רשומים שונתה בהצלחה", "success");
     } else {
       showNotification(result.message, "error");
     }
-
-  } else {
-    alert('אנא הזן ערך בין 0 ל-100');
+  } catch (error) {
+    console.error("שגיאה בלתי צפויה ב-handleSave:", error);
+    showNotification("אירעה שגיאה בלתי צפויה בעת שמירת ההנחה.", "error");
+  } finally {
+    setInputValue(discount);
+    setShowInput(false);
   }
 };
-
 
   return (
     <div>

@@ -6,13 +6,14 @@ import Navbar from '../Common/Nav-bar/Navbar';
 function BookPage() {
   const { books } = useBooks();
   const { id } = useParams();
-  const bookId = Number(id);
+  
 
-  if (!id || isNaN(bookId)) {
+  if (!id) {
     return <div>שגיאה: מזהה הספר לא תקין</div>;
   }
 
-  const book = books.find(b => b.id === bookId);
+  
+  const book = books.find(b => b._id === id);
 
   if (!book) {
     return (

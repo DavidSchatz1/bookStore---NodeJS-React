@@ -13,6 +13,11 @@
 
 .error {
   background-color: $red-error;
+  top: calc(50% - 75px);
+  right: calc(50% - 40px);
+  width: 200px;
+  height: 80px;
+  text-align: center;
 }
 
 @keyframes fadein {

@@ -17,7 +17,7 @@ function Book({ book }) {
   };
 
   return (
-    <div className="book-card" onClick={() => handleClick(book.id)}>
+    <div className="book-card" onClick={() => handleClick(book._id)}>
       <img
         src={book.image}
         alt={`עטיפת הספר "${book.title}"`}
